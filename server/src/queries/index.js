@@ -31,7 +31,10 @@ const queries = {
   },
   user: async (parent, args, ctx, info ) => {
     const userId = getUserId(ctx);
-    const user = await ctx.prisma.query.user({where: {id: userId}}, info)
+    let user;
+    if(userId){
+      user = await ctx.prisma.query.user({where: {id: userId}}, info)
+    }
     if(user){
       return user;
     }else{

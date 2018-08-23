@@ -1,4 +1,6 @@
 import React from "react";
+import uniqueName from "unique-names-generator";
+
 import {
   StyledForm,
   StyledLink,
@@ -23,16 +25,6 @@ const InnerForm = ({
   isSubmitting
 }) => (
   <StyledForm key="signup_form" onSubmit={handleSubmit}>
-    <FormItem
-      labelText="Username: "
-      value={values.username}
-      name="username"
-      type="text"
-      onBlur={handleBlur}
-      handleChange={handleChange}
-    />
-    {touched.username &&
-      errors.username && <StyledFormError>{errors.username}</StyledFormError>}
     <FormItem
       labelText="Email: "
       value={values.email}
@@ -74,16 +66,13 @@ const InnerForm = ({
 
 const SignupForm = withFormik({
   mapPropsToValues: props => ({
-    username: "",
     email: "",
     password: "",
     passwordConf: ""
   }),
   validate: validateSignup,
-  handleSubmit: (
-    { username, password, email },
-    { props, setSubmitting, setErrors }
-  ) => {
+  handleSubmit: ({ password, email }, { props, setSubmitting, setErrors }) => {
+    const username = uniqueName.generate();
     props
       .signupUser({
         variables: {
