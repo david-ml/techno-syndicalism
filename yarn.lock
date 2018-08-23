@@ -9361,6 +9361,10 @@ unique-filename@^1.1.0:
   dependencies:
     unique-slug "^2.0.0"
 
+unique-names-generator@^1.0.13:
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/unique-names-generator/-/unique-names-generator-1.0.13.tgz#b0097033aac5a8325cee9d6c92f0d502ed8ab483"
+
 unique-slug@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/unique-slug/-/unique-slug-2.0.0.tgz#db6676e7c7cc0629878ff196097c78855ae9f4ab"
