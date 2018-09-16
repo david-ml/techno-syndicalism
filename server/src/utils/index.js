@@ -1,6 +1,6 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken')
-console.log(process.env.JWT_SECRET);
+
 function getUserId(context) {
   const Authorization = context.req.get('Authorization');
   if (Authorization!=='null') {

@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "setup":"yarn install && cd server && yarn install && docker-compose up -d && prisma deploy"
   },
   "dependencies": {
     "apollo-server": "^2.0.0",
