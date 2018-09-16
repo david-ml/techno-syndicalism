@@ -14,10 +14,7 @@
 /build
 
 # prisma
-/server/prisma/prisma.yml
 /server/.env
-/server/prisma.yml
-/server/datamodel.graphql
 
 # misc
 .DS_Store

@@ -1,5 +1,5 @@
-# source: https://wobbly-postgres.herokuapp.com/heroku-wobbly/dev
-# timestamp: Mon Aug 06 2018 22:13:30 GMT-0700 (PDT)
+# source: http://localhost:4466
+# timestamp: Sun Sep 16 2018 10:34:04 GMT-0700 (PDT)
 
 type AccessGroup implements Node {
   id: ID!
@@ -419,8 +419,8 @@ input CommentUpdateInput {
   content: String
   replyToComment: CommentUpdateOneWithoutCommentsInput
   comments: CommentUpdateManyWithoutReplyToCommentInput
-  post: PostUpdateOneWithoutCommentsInput
-  user: UserUpdateOneWithoutCommentsInput
+  post: PostUpdateOneRequiredWithoutCommentsInput
+  user: UserUpdateOneRequiredWithoutCommentsInput
 }
 
 input CommentUpdateManyWithoutPostInput {
@@ -462,29 +462,29 @@ input CommentUpdateOneWithoutCommentsInput {
 input CommentUpdateWithoutCommentsDataInput {
   content: String
   replyToComment: CommentUpdateOneWithoutCommentsInput
-  post: PostUpdateOneWithoutCommentsInput
-  user: UserUpdateOneWithoutCommentsInput
+  post: PostUpdateOneRequiredWithoutCommentsInput
+  user: UserUpdateOneRequiredWithoutCommentsInput
 }
 
 input CommentUpdateWithoutPostDataInput {
   content: String
   replyToComment: CommentUpdateOneWithoutCommentsInput
   comments: CommentUpdateManyWithoutReplyToCommentInput
-  user: UserUpdateOneWithoutCommentsInput
+  user: UserUpdateOneRequiredWithoutCommentsInput
 }
 
 input CommentUpdateWithoutReplyToCommentDataInput {
   content: String
   comments: CommentUpdateManyWithoutReplyToCommentInput
-  post: PostUpdateOneWithoutCommentsInput
-  user: UserUpdateOneWithoutCommentsInput
+  post: PostUpdateOneRequiredWithoutCommentsInput
+  user: UserUpdateOneRequiredWithoutCommentsInput
 }
 
 input CommentUpdateWithoutUserDataInput {
   content: String
   replyToComment: CommentUpdateOneWithoutCommentsInput
   comments: CommentUpdateManyWithoutReplyToCommentInput
-  post: PostUpdateOneWithoutCommentsInput
+  post: PostUpdateOneRequiredWithoutCommentsInput
 }
 
 input CommentUpdateWithWhereUniqueWithoutPostInput {
@@ -1249,7 +1249,7 @@ input GroupUpdateInput {
   posts: PostUpdateManyWithoutGroupInput
   keywords: KeywordUpdateManyWithoutGroupsInput
   accessGroups: AccessGroupUpdateManyWithoutGroupInput
-  owner: UserUpdateOneWithoutOwnGroupsInput
+  owner: UserUpdateOneRequiredWithoutOwnGroupsInput
 }
 
 input GroupUpdateManyWithoutKeywordsInput {
@@ -1279,6 +1279,13 @@ input GroupUpdateManyWithoutUsersInput {
   upsert: [GroupUpsertWithWhereUniqueWithoutUsersInput!]
 }
 
+input GroupUpdateOneRequiredWithoutPostsInput {
+  create: GroupCreateWithoutPostsInput
+  connect: GroupWhereUniqueInput
+  update: GroupUpdateWithoutPostsDataInput
+  upsert: GroupUpsertWithoutPostsInput
+}
+
 input GroupUpdateOneWithoutAccessGroupsInput {
   create: GroupCreateWithoutAccessGroupsInput
   connect: GroupWhereUniqueInput
@@ -1288,21 +1295,13 @@ input GroupUpdateOneWithoutAccessGroupsInput {
   upsert: GroupUpsertWithoutAccessGroupsInput
 }
 
-input GroupUpdateOneWithoutPostsInput {
-  create: GroupCreateWithoutPostsInput
-  connect: GroupWhereUniqueInput
-  delete: Boolean
-  update: GroupUpdateWithoutPostsDataInput
-  upsert: GroupUpsertWithoutPostsInput
-}
-
 input GroupUpdateWithoutAccessGroupsDataInput {
   name: String
   slug: String
   users: UserUpdateManyWithoutGroupsInput
   posts: PostUpdateManyWithoutGroupInput
   keywords: KeywordUpdateManyWithoutGroupsInput
-  owner: UserUpdateOneWithoutOwnGroupsInput
+  owner: UserUpdateOneRequiredWithoutOwnGroupsInput
 }
 
 input GroupUpdateWithoutKeywordsDataInput {
@@ -1311,7 +1310,7 @@ input GroupUpdateWithoutKeywordsDataInput {
   users: UserUpdateManyWithoutGroupsInput
   posts: PostUpdateManyWithoutGroupInput
   accessGroups: AccessGroupUpdateManyWithoutGroupInput
-  owner: UserUpdateOneWithoutOwnGroupsInput
+  owner: UserUpdateOneRequiredWithoutOwnGroupsInput
 }
 
 input GroupUpdateWithoutOwnerDataInput {
@@ -1329,7 +1328,7 @@ input GroupUpdateWithoutPostsDataInput {
   users: UserUpdateManyWithoutGroupsInput
   keywords: KeywordUpdateManyWithoutGroupsInput
   accessGroups: AccessGroupUpdateManyWithoutGroupInput
-  owner: UserUpdateOneWithoutOwnGroupsInput
+  owner: UserUpdateOneRequiredWithoutOwnGroupsInput
 }
 
 input GroupUpdateWithoutUsersDataInput {
@@ -1338,7 +1337,7 @@ input GroupUpdateWithoutUsersDataInput {
   posts: PostUpdateManyWithoutGroupInput
   keywords: KeywordUpdateManyWithoutGroupsInput
   accessGroups: AccessGroupUpdateManyWithoutGroupInput
-  owner: UserUpdateOneWithoutOwnGroupsInput
+  owner: UserUpdateOneRequiredWithoutOwnGroupsInput
 }
 
 input GroupUpdateWithWhereUniqueWithoutKeywordsInput {
@@ -1577,6 +1576,9 @@ input GroupWhereUniqueInput {
   name: String
   slug: String
 }
+
+"""Raw JSON value"""
+scalar Json
 
 type Keyword implements Node {
   createdAt: DateTime!
@@ -1940,6 +1942,7 @@ type Mutation {
   deleteManyKeywords(where: KeywordWhereInput): BatchPayload!
   deleteManyComments(where: CommentWhereInput): BatchPayload!
   deleteManyAccessGroups(where: AccessGroupWhereInput): BatchPayload!
+  executeRaw(database: PrismaDatabase, query: String!): Json!
 }
 
 enum MutationType {
@@ -1969,7 +1972,6 @@ type PageInfo {
   endCursor: String
 }
 
-"""A User Post"""
 type Post implements Node {
   createdAt: DateTime!
   id: ID!
@@ -2145,8 +2147,8 @@ input PostUpdateInput {
   content: String
   imageUrl: String
   commentCount: Int
-  group: GroupUpdateOneWithoutPostsInput
-  user: UserUpdateOneWithoutPostsInput
+  group: GroupUpdateOneRequiredWithoutPostsInput
+  user: UserUpdateOneRequiredWithoutPostsInput
   keywords: KeywordUpdateManyWithoutPostsInput
   comments: CommentUpdateManyWithoutPostInput
 }
@@ -2178,10 +2180,9 @@ input PostUpdateManyWithoutUserInput {
   upsert: [PostUpsertWithWhereUniqueWithoutUserInput!]
 }
 
-input PostUpdateOneWithoutCommentsInput {
+input PostUpdateOneRequiredWithoutCommentsInput {
   create: PostCreateWithoutCommentsInput
   connect: PostWhereUniqueInput
-  delete: Boolean
   update: PostUpdateWithoutCommentsDataInput
   upsert: PostUpsertWithoutCommentsInput
 }
@@ -2191,8 +2192,8 @@ input PostUpdateWithoutCommentsDataInput {
   content: String
   imageUrl: String
   commentCount: Int
-  group: GroupUpdateOneWithoutPostsInput
-  user: UserUpdateOneWithoutPostsInput
+  group: GroupUpdateOneRequiredWithoutPostsInput
+  user: UserUpdateOneRequiredWithoutPostsInput
   keywords: KeywordUpdateManyWithoutPostsInput
 }
 
@@ -2201,7 +2202,7 @@ input PostUpdateWithoutGroupDataInput {
   content: String
   imageUrl: String
   commentCount: Int
-  user: UserUpdateOneWithoutPostsInput
+  user: UserUpdateOneRequiredWithoutPostsInput
   keywords: KeywordUpdateManyWithoutPostsInput
   comments: CommentUpdateManyWithoutPostInput
 }
@@ -2211,8 +2212,8 @@ input PostUpdateWithoutKeywordsDataInput {
   content: String
   imageUrl: String
   commentCount: Int
-  group: GroupUpdateOneWithoutPostsInput
-  user: UserUpdateOneWithoutPostsInput
+  group: GroupUpdateOneRequiredWithoutPostsInput
+  user: UserUpdateOneRequiredWithoutPostsInput
   comments: CommentUpdateManyWithoutPostInput
 }
 
@@ -2221,7 +2222,7 @@ input PostUpdateWithoutUserDataInput {
   content: String
   imageUrl: String
   commentCount: Int
-  group: GroupUpdateOneWithoutPostsInput
+  group: GroupUpdateOneRequiredWithoutPostsInput
   keywords: KeywordUpdateManyWithoutPostsInput
   comments: CommentUpdateManyWithoutPostInput
 }
@@ -2513,6 +2514,10 @@ input PostWhereUniqueInput {
   id: ID
 }
 
+enum PrismaDatabase {
+  default
+}
+
 type Query {
   files(where: FileWhereInput, orderBy: FileOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [File]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
@@ -2786,26 +2791,23 @@ input UserUpdateManyWithoutGroupsInput {
   upsert: [UserUpsertWithWhereUniqueWithoutGroupsInput!]
 }
 
-input UserUpdateOneWithoutCommentsInput {
+input UserUpdateOneRequiredWithoutCommentsInput {
   create: UserCreateWithoutCommentsInput
   connect: UserWhereUniqueInput
-  delete: Boolean
   update: UserUpdateWithoutCommentsDataInput
   upsert: UserUpsertWithoutCommentsInput
 }
 
-input UserUpdateOneWithoutOwnGroupsInput {
+input UserUpdateOneRequiredWithoutOwnGroupsInput {
   create: UserCreateWithoutOwnGroupsInput
   connect: UserWhereUniqueInput
-  delete: Boolean
   update: UserUpdateWithoutOwnGroupsDataInput
   upsert: UserUpsertWithoutOwnGroupsInput
 }
 
-input UserUpdateOneWithoutPostsInput {
+input UserUpdateOneRequiredWithoutPostsInput {
   create: UserCreateWithoutPostsInput
   connect: UserWhereUniqueInput
-  delete: Boolean
   update: UserUpdateWithoutPostsDataInput
   upsert: UserUpsertWithoutPostsInput
 }
