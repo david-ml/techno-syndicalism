@@ -13,7 +13,7 @@
     "eject": "react-scripts eject",
     "precommit": "lint-staged",
     "dev": "concurrently \"yarn start\" \"cd server && yarn dev\"",
-    "setup":"yarn install && cd server && yarn install && docker-compose up -d && prisma deploy"
+    "setup":"yarn install && cd server && yarn install && docker-compose up -d && sleep 10 && prisma deploy"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json,css}": [
