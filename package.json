@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "preinstall": "yarn global add graphql-cli && yarn global add prisma",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
@@ -13,7 +14,8 @@
     "eject": "react-scripts eject",
     "precommit": "lint-staged",
     "dev": "concurrently \"yarn start\" \"cd server && yarn dev\"",
-    "setup":"yarn install && cd server && yarn install && docker-compose up -d && sleep 10 && prisma deploy"
+    "mock": "yarn global add graphql-faker",
+    "setup": "yarn install && cd server && yarn install && docker-compose up -d && sleep 10 && prisma deploy"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json,css}": [
@@ -28,6 +30,7 @@
     "apollo-link-state": "^0.4.1",
     "axios": "^0.18.0",
     "concurrently": "^3.6.1",
+    "date-now": "^1.0.1",
     "formik": "^1.0.2",
     "graphql": "^0.13.2",
     "lodash": "^4.17.10",
