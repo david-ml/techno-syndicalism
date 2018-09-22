@@ -32,7 +32,11 @@ const typeDefs = importSchema(path.resolve('src/schema.graphql'))
 const server = new ApolloServer({
   formatError: error => {
     console.log(error);
-    return new Error('Internal server error');
+    return error;
+  },
+  formatResponse: response => {
+    process.stdout.write(response);
+    return response;
   },
   typeDefs,
   resolvers,
